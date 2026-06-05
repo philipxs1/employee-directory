@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import './App.css'
 import { fetchApi } from './api/fetchApi'
 import { type Employee } from './entities/EmployeeTypes'
-import AvatarPlaceHolder from './api/Components/AvatarPlaceHolder'
-import StatusBadge from './api/Components/StatusBadge'
+
 import EmployeeCard from './api/Components/EmployeeCard'
 import { getInitials } from './utils/getInitials'
 import SearchInput from './api/Components/SearchInput'
@@ -12,6 +11,7 @@ import SelectInput from './api/Components/SelectInput'
 
 function App() {
   const [data, setData] = useState<Employee[]>([])
+
   const [query, setQuery] = useState<string>('')
   const [filter, setFilter] = useState<string>('')
 
@@ -19,7 +19,8 @@ function App() {
   const [error, setError] = useState<string | null>(null)
 
 
-const filteredData = filterEmployees(data, query)
+const searchedData = filterEmployees(data, query)
+const filterData = filterByDepartment(searchedData,filter)
 
   // mock api call
 
@@ -38,26 +39,38 @@ async function getEmployees() {
 getEmployees()
  }, [])
 
+//  search by name and role
  function filterEmployees(data: Employee[], query: string) {
 const lowerCase = query.toLowerCase()
 
 return data.filter((item ) => item.name.toLowerCase().includes(lowerCase) || item.role.toLowerCase().includes(lowerCase))
+}
 
+// filter departments and get them from the data
+const departments = useMemo(() => {
+  return Array.from(
+    new Set(data.map((emp) => emp.department))
+  );
+}, [data]);
+
+function filterByDepartment(data : Employee[], filter :string) {
+  if (!filter) return data
+  return data.filter((emp) => emp.department === filter)
 }
 
 
   return (
     <>
       <section id="center" className=' justify-center flex items-center p-10 '>
-<div>
-  <SelectInput filter={filter} setFilter={setFilter} />
+<div className='flex gap-10'>
+  <SelectInput filter={filter} setFilter={setFilter} departments={departments}/>
 <SearchInput query={query} setQuery={setQuery} />
 </div>
 
         <ul className=' flex flex-col gap-10'>
-        {filteredData.map((emp) => {
+        {filterData.map((emp) => {
           const id = getInitials(emp.name) + emp.id
-          console.log(id)
+         
           return (
           <EmployeeCard key={id} emp={emp} />
           )
