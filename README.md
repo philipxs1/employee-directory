@@ -1,74 +1,38 @@
-# React + TypeScript + Vite
+The Task
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Build an Employee Directory single-page application that loads employee data
+from the provided JSON file and displays it as an interactive interface.
+Requirements
 
-Currently, two official plugins are available:
+1. Display a list of employees
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+• Load the data from the provided applicants.json file.
 
-## React Compiler
+• Display each employee as a card showing their name, role, department,
+status, and start date.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+• Generate a placeholder avatar using the employee’s initials (e.g. “PS” for
+Priya Sharma).
 
-## Expanding the ESLint configuration
+• The status field should be visually distinct for each status (Active, On Leave,
+Probation) – e.g. using a coloured badge.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+2. Search and filter
+• Implement a search input that filters employees by name or role as the
+user types.
+• Implement a department filter dropdown.
+• Search, filtering, and sorting must work cohesively – changing one
+should not reset or conflict with the others. All active controls should
+combine to produce the displayed results.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+3. Sort
+• Allow the user to sort the list by name (A–Z / Z–A) or by start date (Newest /
+Oldest).
+• The currently active sort option must be visually indicated.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+4. Employee detail view
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-# employee-directory
+• When clicking on an employee card, display a detail view (modal, side
+panel, or expanded card – your choice) showing the employee’s full details.

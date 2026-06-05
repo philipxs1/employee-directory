@@ -1,122 +1,73 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { useEffect, useState } from 'react'
+
 import './App.css'
+import { fetchApi } from './api/fetchApi'
+import { type Employee } from './entities/EmployeeTypes'
+import AvatarPlaceHolder from './api/Components/AvatarPlaceHolder'
+import StatusBadge from './api/Components/StatusBadge'
+import EmployeeCard from './api/Components/EmployeeCard'
+import { getInitials } from './utils/getInitials'
+import SearchInput from './api/Components/SearchInput'
+import SelectInput from './api/Components/SelectInput'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState<Employee[]>([])
+  const [query, setQuery] = useState<string>('')
+  const [filter, setFilter] = useState<string>('')
+
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
+
+
+const filteredData = filterEmployees(data, query)
+
+  // mock api call
+
+  useEffect(() => {
+async function getEmployees() {
+  try {
+    setIsLoading(true)
+    const res = await fetchApi()
+    setData(res)
+  } catch(err) {
+    console.error(err)
+  } finally {
+    setIsLoading(false)
+  }
+}
+getEmployees()
+ }, [])
+
+ function filterEmployees(data: Employee[], query: string) {
+const lowerCase = query.toLowerCase()
+
+return data.filter((item ) => item.name.toLowerCase().includes(lowerCase) || item.role.toLowerCase().includes(lowerCase))
+
+}
+
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base " width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      <section id="center" className=' justify-center flex items-center p-10 '>
+<div>
+  <SelectInput filter={filter} setFilter={setFilter} />
+<SearchInput query={query} setQuery={setQuery} />
+</div>
 
-      <div className="ticks"></div>
+        <ul className=' flex flex-col gap-10'>
+        {filteredData.map((emp) => {
+          const id = getInitials(emp.name) + emp.id
+          console.log(id)
+          return (
+          <EmployeeCard key={id} emp={emp} />
+          )
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+        })}
+     </ul>
+    </section>
     </>
   )
 }
 
 export default App
+
