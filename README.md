@@ -41,3 +41,18 @@ panel, or expanded card – your choice) showing the employee’s full details.
 i took it step by step, unfortunately didn't get past the final of step 3
 
 next steps after step 3 would be implementing use memo and creating a custom sort and filter hook.
+
+installation: 
+clone 
+git clone https://github.com/your-username/employee-directory.git
+
+Navigate to the project
+cd employee-directory
+
+install
+npm install
+
+run the server
+npm run dev
+
+that's it!
