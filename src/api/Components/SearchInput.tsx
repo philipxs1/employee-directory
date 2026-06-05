@@ -32,12 +32,7 @@ const SearchInput = ({query, setQuery} : props) => {
           placeholder="Search..."
           className="w-full rounded-md border border-black bg-gray-400 p-3 text-sm outline-none focus:border-transparent focus:ring-2 focus:ring-blue-800"
         />
-        {/* <button
-          type="button"
-          className="rounded-sm bg-blue-600 px-4 py-2 text-white hover:bg-blue-800 focus:bg-blue-800"
-        >
-          Search
-        </button> */}
+     
       </div>
     </form>
   );

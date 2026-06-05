@@ -36,3 +36,8 @@ Oldest).
 
 • When clicking on an employee card, display a detail view (modal, side
 panel, or expanded card – your choice) showing the employee’s full details.
+
+
+i took it step by step, unfortunately didn't get past the final of step 3
+
+next steps after step 3 would be implementing use memo and creating a custom sort and filter hook.

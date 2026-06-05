@@ -3,11 +3,15 @@ export interface Employee {
     name: string,
     role: string,
     department: string,
-    status: statusType
+    status: StatusType
     startDate: string,
     skills: string[],
     avatar: null
 }
 
 
-export type statusType = 'Active' | 'On Leave' | 'Probation'
+export type StatusType = 'Active' | 'On Leave' | 'Probation'
+
+export type SortType = 'asc' | 'desc'
+
+export type SortField = 'name' | 'startDate'
